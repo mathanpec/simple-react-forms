@@ -19,7 +19,7 @@
 
   .form-control {
     &:focus{
-      outline: 1px solid lightblue;
+      outline: 1px solid lightblue!important;
     }
   }
 
@@ -38,23 +38,23 @@
   }
 
   .helpText {
-    width: 40%;
     padding: 0px 15px;
-    display: inline-block;
     box-sizing:border-box;
     color: #123456;
     display: none;
     font-family: monospace;
   }
 
-  &.liftedRow {
+  &.focused {
+    .helpText {
+      display: block;
+    }
+  }
+
+  &.highlight {
     background: #FFF;
     border-radius: 3px;
     box-shadow: 0 0px 10px rgba(0,0,0,0.3);
-    .helpText {
-      display: inline-block;
-    }
-
     textarea {
       height: 100px;
     }
@@ -73,8 +73,6 @@
 }
 
 .make-inline {
-  display: inline-block;
-
   .label {
     text-align: right;
     width: 20%;
@@ -83,8 +81,15 @@
   }
 
   .control {
-    width: 30%;
+    width: 40%;
     display: inline-block;
+  }
+
+  &.focused {
+    .helpText {
+      width: 40%;
+      display: inline-block;
+    }
   }
 }
 

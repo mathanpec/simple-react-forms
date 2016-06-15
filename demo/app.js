@@ -14,7 +14,8 @@ class FormDemo extends Component {
             name='sampleField'
             label='Enter name'
             type='text'
-            help='Here we just show the help text'
+            help='Give your help text here'
+            inline
           />
        </Form>
      </div>

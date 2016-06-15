@@ -36,7 +36,10 @@ class Field extends Component {
     while (el.parentNode && !el.parentNode.classList.contains(styles['field-wrapper'])) {
       el = el.parentNode;
     }
-    el.parentNode.classList.add(styles.liftedRow);
+    el.parentNode.classList.add(styles.focused);
+    this.props.highlight && el.parentNode.classList.add(styles.highlight);
+
+    this.props.onFocus && this.props.onFocus(e);
   }
 
   onBlur (e) {
@@ -44,8 +47,11 @@ class Field extends Component {
     while (el.parentNode && !el.parentNode.classList.contains(styles['field-wrapper'])) {
       el = el.parentNode;
     }
-    el.parentNode.classList.remove(styles.liftedRow);
+    el.parentNode.classList.remove(styles.focused);
+    this.props.highlight && el.parentNode.classList.remove(styles.highlight);
+
     this.setState({touched: true});
+    this.props.onBlur && this.props.onBlur(e);
   }
 
   checkForValidation (value, validators = this.props.validators) {
@@ -77,8 +83,6 @@ class Field extends Component {
     } else {
       this.setFieldState(event.target ? event.target.value : event, true);
     }
-
-    // the below line is just brilliant, thanks @mathanpec
     this.props.onChange && this.props.onChange(event);
   }
 
@@ -206,7 +210,7 @@ class Field extends Component {
         style={this.props.rootStyle}
       >
         {this.props.label && (
-          <div className={styles.label}>
+          <div className={styles.label} style={this.props.labelStyle}>
             <span>{this.props.label}</span>
           </div>
         )}
@@ -231,6 +235,7 @@ class Field extends Component {
 }
 
 Field.defaultProps = {
+  highlight: false,
   validators: [],
   type: 'text',
   rootStyle: {},
@@ -250,6 +255,7 @@ Field.propTypes = {
   ]),
   type: PropTypes.string,
   help: PropTypes.string,
+  highlight: PropTypes.bool,
   options: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape({
     text: PropTypes.string,
     value: PropTypes.string
@@ -260,6 +266,7 @@ Field.propTypes = {
   rootStyle: PropTypes.object,
   helpStyle: PropTypes.object,
   controlStyle: PropTypes.object,
+  labelStyle: PropTypes.object,
   placeholder: PropTypes.string,
   inline: PropTypes.bool,
   forceValidate: PropTypes.bool,

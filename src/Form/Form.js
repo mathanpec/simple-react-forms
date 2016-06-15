@@ -3,11 +3,10 @@ import ReactDOM from 'react-dom';
 import styles from './Form.style.css';
 
 class Form extends Component {
-  constructor () {
+  constructor (props) {
     super();
     this.state = {
-      rendered: false,
-      el: null
+      rendered: !props.optimize
     };
     this.scrollHandler = this.scrollHandler.bind(this);
   }
@@ -48,7 +47,6 @@ class Form extends Component {
   }
 
   shouldComponentUpdate (nextProps, nextState) {
-    return true;
     const doRender = this.props.renderCount !== nextProps.renderCount;
     const renderFlagChanged = this.state.rendered !== nextState.rendered;
     return renderFlagChanged || doRender;
@@ -72,8 +70,7 @@ class Form extends Component {
       return React.Children.map(children, (Field) => {
         return React.cloneElement(Field, {
           ref: Field.props.name,
-          key: Field.props.name,
-          inline: this.props.inline
+          key: Field.props.name
         });
       });
     }
@@ -90,7 +87,6 @@ class Form extends Component {
   }
 }
 Form.defaultProps = {
-  inline: false,
   optimize: false
 };
 
