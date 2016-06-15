@@ -42,7 +42,7 @@ class SimpleFormDemo extends Component {
             type='text'
           />
       </Form>
-      <button onClick='this.onClickHandler'>Submit</button>
+      <button onClick={this.onClickHandler.bind(this)}>Submit</button>
     </div>
       
     );
@@ -83,7 +83,7 @@ in the input field will return the following object.
       </Form>
 ```
 
-`validators` props takes array of validation condition. For the basic validation checks like `required`, you can just pass `required` as string. And for custom validations, you can pass function as shown in the example above. Validation functions are executed based on its order in validators array. If a validation function returns false for `valid` key in return object, then there is no further check and `error` message is shown on the field.
+`validators` props takes array of validation condition. For the basic validation checks like `required`, you can just pass `required` as string. And for custom validations, you can pass function as shown in the example above. Validation functions are executed based on its order in validators array. If a validation function returns `{valid: true}` then the check goes to next validation function. If it returns `{valid: false, error: 'Entered city is not serviceable'}` then the validation stops there and the error message is shown on the field.
 
 Finally to check the form validity, call the method `isValid()` exposed on Form instance. So ideally you have to first check for validity of the form using `isValid()` and then `getFormValues()` should be called to get the values. Check below for usage.
 
@@ -126,10 +126,12 @@ class SimpleFormDemo extends Component {
 
 `simple-react-forms` can be made performant in two ways as follows.
 * By setting `onDemand` props as true for Form component. This will make the form component to just reserve the space for it if it is not in view port area and renders the actual form only when it comes in view area. Sample use case could be  rendering a editable table with large number of rows and each row is a form component with multiple fields.
-* By setting `optimize` props as true on Field Component. On setting this props, Field Component will just render a simple text box and the actual field element will be rendered only on mouse over of the input. Sample use case is in case of large number of select boxes with large number of options for each of them. So rendering a simple text box first and chaging them to select on mouse over gives huge performance boost. 
+* By setting `optimize` props as true on Field Component. On setting this props, Field Component will just render a simple text box and the actual field element will be rendered only on mouse over of the input. Sample use case is in case of large number of select boxes with large number of options for each of them. So rendering a simple text box first and changing them to select on mouse over gives huge performance boost. 
 
 
-###Methods
+###Methods on Form Component
+
+Following methods are available on Form component instance. Check the examples above for the usage of this methods.
 
 Method Name | Return Value
 ----------- | ------------
