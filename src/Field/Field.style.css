@@ -1,6 +1,7 @@
 .field-wrapper {
   padding: 5px 0px;
   margin-bottom: 8px;
+  min-height: 40px;
   .form-control {
     padding: 4px 8px;
     width: 100%;

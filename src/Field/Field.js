@@ -207,7 +207,7 @@ class Field extends Component {
       <div
         className={`${styles['field-wrapper']}
           ${this.props.inline ? styles['make-inline'] : ''}`}
-        style={this.props.rootStyle}
+        style={this.props.style}
       >
         {this.props.label && (
           <div className={styles.label} style={this.props.labelStyle}>
@@ -238,7 +238,7 @@ Field.defaultProps = {
   highlight: false,
   validators: [],
   type: 'text',
-  rootStyle: {},
+  style: {},
   helpStyle: {},
   controlStyle: {},
   placeholder: '',
@@ -263,7 +263,7 @@ Field.propTypes = {
   element: PropTypes.element,
   validators: PropTypes.array,
   onChange: PropTypes.func,
-  rootStyle: PropTypes.object,
+  style: PropTypes.object,
   helpStyle: PropTypes.object,
   controlStyle: PropTypes.object,
   labelStyle: PropTypes.object,

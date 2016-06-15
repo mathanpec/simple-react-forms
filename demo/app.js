@@ -16,6 +16,9 @@ class FormDemo extends Component {
             type='text'
             help='Give your help text here'
             inline
+            style={{
+              width: '80%'
+            }}
           />
        </Form>
      </div>

@@ -5,13 +5,13 @@ class Form extends Component {
   constructor (props) {
     super();
     this.state = {
-      rendered: !props.optimize
+      rendered: !props.onDemand
     };
     this.scrollHandler = this.scrollHandler.bind(this);
   }
 
   componentWillUnmount () {
-    if (this.props.optimize) window.removeEventListener('scroll', this.scrollHandler);
+    if (this.props.onDemand) window.removeEventListener('scroll', this.scrollHandler);
   }
 
   getFormValues () {
@@ -22,7 +22,7 @@ class Form extends Component {
   }
 
   componentDidMount () {
-    if (this.props.optimize) {
+    if (this.props.onDemand) {
       window.addEventListener('scroll', this.scrollHandler);
       let el = ReactDOM.findDOMNode(this);
       this.el = el;
@@ -45,12 +45,6 @@ class Form extends Component {
     }
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
-    const doRender = this.props.renderCount !== nextProps.renderCount;
-    const renderFlagChanged = this.state.rendered !== nextState.rendered;
-    return renderFlagChanged || doRender;
-  }
-
   isValid () {
     let children = React.Children.toArray(this.props.children);
     return children.reduce((valid, field) => {
@@ -60,7 +54,7 @@ class Form extends Component {
   }
 
   getRenderElements () {
-    if (this.props.optimize && !this.state.rendered) {
+    if (this.props.onDemand && !this.state.rendered) {
       return (
         <div></div>
       );
@@ -77,7 +71,7 @@ class Form extends Component {
 
   render () {
     return (
-      <form className={styles['react-form']} style={{minHeight: 55}}>
+      <form className={styles['react-form']}>
         {
           this.getRenderElements()
         }
@@ -86,14 +80,12 @@ class Form extends Component {
   }
 }
 Form.defaultProps = {
-  optimize: false
+  onDemand: false
 };
 
 Form.propTypes = {
   children: PropTypes.node,
-  inline: PropTypes.bool,
-  renderCount: PropTypes.number,
-  optimize: PropTypes.bool
+  onDemand: PropTypes.bool
 };
 
 export default Form;
