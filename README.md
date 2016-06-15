@@ -36,6 +36,11 @@ class SimpleFormDemo extends Component {
             label='Enter City name'
             type='text'
           />
+          <Field
+            name='state'
+            label='Enter State name'
+            type='text'
+          />
       </Form>
       <button onClick='this.onClickHandler'>Submit</button>
     </div>
@@ -51,7 +56,8 @@ in the input field will return the following object.
 
 ```
 {
-  'city': 'Bangalore'
+  'city': 'Chennai',
+  'state': 'Tamilnadu'
 }
 ```
 
