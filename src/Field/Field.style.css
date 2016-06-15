@@ -1,0 +1,93 @@
+.field-wrapper {
+  padding: 5px 0px;
+  margin-bottom: 8px;
+  .form-control {
+    padding: 4px 8px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  },
+  input[type=text], select, textarea {
+    height: 36px;
+    font-size:12px;
+  }
+
+  input[type=radio] {
+    width: auto;
+  }
+
+  .form-control {
+    &:focus{
+      outline: 1px solid lightblue;
+    }
+  }
+
+  .label {
+    color: #777;
+    padding: 0px 15px;
+    vertical-align: top;
+    box-sizing:border-box;
+    margin-bottom: 5px;
+  }
+
+  .control{
+    padding: 0px 15px;
+    vertical-align: top;
+    box-sizing:border-box;
+  }
+
+  .helpText {
+    width: 40%;
+    padding: 0px 15px;
+    display: inline-block;
+    box-sizing:border-box;
+    color: #123456;
+    display: none;
+    font-family: monospace;
+  }
+
+  &.liftedRow {
+    background: #FFF;
+    border-radius: 3px;
+    box-shadow: 0 0px 10px rgba(0,0,0,0.3);
+    .helpText {
+      display: inline-block;
+    }
+
+    textarea {
+      height: 100px;
+    }
+  }
+
+  .error {
+    color: red;
+    font-size: 12px
+  }
+
+  .success {
+    .form-control {
+      border: 1px solid lightgreen;
+    }
+  }
+}
+
+.make-inline {
+  display: inline-block;
+
+  .label {
+    text-align: right;
+    width: 20%;
+    display: inline-block;
+    margin-bottom: 0px;
+  }
+
+  .control {
+    width: 30%;
+    display: inline-block;
+  }
+}
+
+.hidden{
+  display: none;
+}

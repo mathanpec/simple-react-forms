@@ -1,0 +1,268 @@
+import React, {Component, PropTypes} from 'react';
+import styles from './Field.style.css';
+import availableValidators from '../Utils/form-validators';
+
+class Field extends Component {
+  constructor (props) {
+    super(props);
+    this.state = {
+      value: '',
+      valid: true,
+      error: '',
+      touched: false,
+      rendered: !props.optimize
+    };
+    this.onChangeHandler = this.onChangeHandler.bind(this);
+    this.mouseOverHandler = this.mouseOverHandler.bind(this);
+    this.onBlur = this.onBlur.bind(this);
+    this.onFocus = this.onFocus.bind(this);
+  }
+
+  componentDidMount () {
+    this.setFieldState(this.props.value || '');
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.forceValidate !== this.props.forceValidate) {
+      this.setFieldState(this.state.value, true, nextProps.validators);
+    }
+    if (nextProps.value !== this.props.value) {
+      this.setFieldState(nextProps.value, true, nextProps.validators);
+    }
+  }
+
+  onFocus (e) {
+    let el = e.target;
+    while (el.parentNode && !el.parentNode.classList.contains(styles['field-wrapper'])) {
+      el = el.parentNode;
+    }
+    el.parentNode.classList.add(styles.liftedRow);
+  }
+
+  onBlur (e) {
+    let el = e.target;
+    while (el.parentNode && !el.parentNode.classList.contains(styles['field-wrapper'])) {
+      el = el.parentNode;
+    }
+    el.parentNode.classList.remove(styles.liftedRow);
+    this.setState({touched: true});
+  }
+
+  checkForValidation (value, validators = this.props.validators) {
+    return validators.reduce((currentState, validator) => {
+      if (currentState.valid) {
+        if (typeof validator === 'function') return validator(value);
+        if (typeof validator === 'string') {
+          if (typeof availableValidators[validator] === 'function') {
+            return availableValidators[validator](value);
+          }
+        } else {
+          throw new Error('No validator to check: ' + validator);
+        }
+      } else {
+        return currentState;
+      }
+    }, {valid: true});
+  }
+
+  setFieldState (value, touched = false, validators) {
+    let validationState = this.checkForValidation(value, validators);
+    let {valid, error} = validationState;
+    this.setState({value, valid, error, touched});
+  }
+
+  onChangeHandler (event) {
+    if (event.target && event.target.type === 'checkbox') {
+      this.setFieldState(event.target ? event.target.checked : event, true);
+    } else {
+      this.setFieldState(event.target ? event.target.value : event, true);
+    }
+
+    // the below line is just brilliant, thanks @mathanpec
+    this.props.onChange && this.props.onChange(event);
+  }
+
+  mouseOverHandler (event) {
+    this.setState({rendered: true});
+  }
+
+  getValue () {
+    return this.state.value;
+  }
+
+  isValid () {
+    this.setState({touched: true});
+    return this.state.valid;
+  }
+
+  addPropsToElement (element) {
+    return React.cloneElement(element, {
+      onChange: this.onChangeHandler,
+      onFocus: this.onFocus,
+      onBlur: this.onBlur,
+      ref: this.props.name,
+      value: this.state.value,
+      placeholder: this.props.placeholder
+    });
+  }
+
+  getElementByType (type) {
+    // text, textarea or select now
+    return {
+      text: (
+        <input type='text'
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
+          onChange={this.onChangeHandler}
+          ref={this.props.name}
+          value={this.state.value}
+          placeholder={this.props.placeholder}
+          className={styles['form-control']}
+        />
+      ),
+      textarea: (
+        <textarea
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
+          onChange={this.onChangeHandler}
+          ref={this.props.name}
+          value={this.state.value}
+          placeholder={this.props.placeholder}
+          className={styles['form-control']}
+        ></textarea>
+      ),
+      select: (
+        <select
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
+          onChange={this.onChangeHandler}
+          ref={this.props.name}
+          value={this.state.value}
+          selected={this.state.value}
+          placeholder={this.props.placeholder}
+          className={styles['form-control']}
+        >
+            <option value=''>Select</option>
+          { this.props.options &&
+            this.props.options
+              .map(o => <option key={o.text || o} value={o.value || o.text || o}>{o.text || o}</option>)
+          }
+        </select>
+      ),
+      radio: (
+        this.props.options && this.props.options.map(o => {
+          return (
+            <span style={{display: 'block'}} key={o.text}>
+              <input type='radio'
+                onFocus={this.onFocus}
+                onBlur={this.onBlur}
+                onChange={this.onChangeHandler}
+                ref={this.props.name}
+                value={o.value}
+                name={this.props.name}
+                checked={this.state.value === o.value}
+                selected={this.state.value === o.value}
+              /> {o.text}
+            </span>
+          );
+        })
+      ),
+      checkbox: (
+        <span style={{display: 'block'}}>
+          <input type='checkbox'
+            onFocus={this.onFocus}
+            onBlur={this.onBlur}
+            value={this.state.value}
+            onChange={this.onChangeHandler}
+            ref={this.props.name}
+            name={this.props.name}
+            checked={this.state.value}
+          />
+        </span>
+      )
+    }[type];
+  }
+
+  getActualInput () {
+    if (this.props.element && this.props.optimize && !this.state.rendered) {
+      return <input type='text'
+        ref={this.props.name}
+        defaultValue={this.props.value}
+        placeholder={this.props.placeholder}
+        className={styles['form-control']}
+        onMouseOver={this.mouseOverHandler}
+        onFocus={this.mouseOverHandler}
+      />;
+    }
+    return this.props.element ? this.addPropsToElement(this.props.element) : this.getElementByType(this.props.type);
+  }
+
+  render () {
+    const isSuccess = this.state.touched && this.state.valid;
+    return (
+      <div
+        className={`${styles['field-wrapper']}
+          ${this.props.inline ? styles['make-inline'] : ''}`}
+        style={this.props.rootStyle}
+      >
+        {this.props.label && (
+          <div className={styles.label}>
+            <span>{this.props.label}</span>
+          </div>
+        )}
+        <div className={styles.control + ' ' + (isSuccess ? styles.success : '')} style={this.props.controlStyle}>
+          {this.getActualInput()}
+          {(!this.state.valid && this.state.touched) && (
+            <div className={styles.error}>
+              {this.state.error}
+            </div>
+          )}
+        </div>
+        {this.props.help && (
+          <div
+            className={styles.helpText}
+            style={this.props.helpStyle}
+            dangerouslySetInnerHTML={{__html: this.props.help}}
+            />
+        )}
+      </div>
+    );
+  }
+}
+
+Field.defaultProps = {
+  validators: [],
+  type: 'text',
+  rootStyle: {},
+  helpStyle: {},
+  controlStyle: {},
+  placeholder: '',
+  optimize: false
+};
+
+Field.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+    PropTypes.number
+  ]),
+  type: PropTypes.string,
+  help: PropTypes.string,
+  options: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape({
+    text: PropTypes.string,
+    value: PropTypes.string
+  })), PropTypes.arrayOf(PropTypes.string)]),
+  element: PropTypes.element,
+  validators: PropTypes.array,
+  onChange: PropTypes.func,
+  rootStyle: PropTypes.object,
+  helpStyle: PropTypes.object,
+  controlStyle: PropTypes.object,
+  placeholder: PropTypes.string,
+  inline: PropTypes.bool,
+  forceValidate: PropTypes.bool,
+  optimize: PropTypes.bool
+};
+export default Field;
