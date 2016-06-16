@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import styles from './Form.style.css';
+import ReactDOM from 'react-dom';
 
 class Form extends Component {
   constructor (props) {
@@ -71,7 +71,7 @@ class Form extends Component {
 
   render () {
     return (
-      <form className={styles['react-form']}>
+      <form>
         {
           this.getRenderElements()
         }

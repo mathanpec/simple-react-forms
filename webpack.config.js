@@ -56,16 +56,17 @@ if (isDevelopment) {
       commonjs2: 'react',
       commonjs: 'react',
       amd: 'react'
+    },
+    'react-dom': {
+      root: 'ReactDOM',
+      commonjs2: 'react-dom',
+      commonjs: 'react-dom',
+      amd: 'react-dom'
     }
   };
   finalConf.plugins = [...finalConf.plugins,
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    }),
     new CleanWebpackPlugin([BUILD_PATH]),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"'

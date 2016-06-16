@@ -26,7 +26,8 @@
   },
   "homepage": "https://github.com/mathanpec/simple-react-forms#readme",
   "dependencies": {
-    "react": "^15.1.0"
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0"
   },
   "devDependencies": {
     "ansi-regex": "^2.0.0",
