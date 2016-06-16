@@ -8,6 +8,7 @@
     box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 4px;
+    outline: none;
   },
   input[type=text], select, textarea {
     height: 36px;
@@ -16,12 +17,6 @@
 
   input[type=radio] {
     width: auto;
-  }
-
-  .form-control {
-    &:focus{
-      outline: 1px solid lightblue!important;
-    }
   }
 
   .label {
@@ -50,6 +45,15 @@
     .helpText {
       display: block;
     }
+    .form-control {
+        border: 1px solid lightblue;
+    }
+
+    .error {
+      .message {
+        display: none;
+      }
+    }
   }
 
   &.highlight {
@@ -62,8 +66,14 @@
   }
 
   .error {
-    color: red;
-    font-size: 12px
+    .form-control {
+      border: 1px solid red;
+    }
+    .message{
+      margin-top: 5px;
+      color: red;
+      font-size: 12px
+    }
   }
 
   .success {

@@ -202,7 +202,7 @@ class Field extends Component {
   }
 
   render () {
-    const isSuccess = this.state.touched && this.state.valid;
+    const validationClass = this.state.touched ? (this.state.valid ? styles.success : styles.error) : '';
     return (
       <div
         className={`${styles['field-wrapper']}
@@ -214,10 +214,10 @@ class Field extends Component {
             <span>{this.props.label}</span>
           </div>
         )}
-        <div className={styles.control + ' ' + (isSuccess ? styles.success : '')} style={this.props.controlStyle}>
+        <div className={styles.control + ' ' + (validationClass)} style={this.props.controlStyle}>
           {this.getActualInput()}
           {(!this.state.valid && this.state.touched) && (
-            <div className={styles.error}>
+            <div className={styles.message}>
               {this.state.error}
             </div>
           )}

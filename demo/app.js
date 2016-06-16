@@ -16,9 +16,11 @@ class FormDemo extends Component {
             type='text'
             help='Give your help text here'
             inline
+            highlight
             style={{
               width: '80%'
             }}
+            validators={['required']}
           />
        </Form>
      </div>
