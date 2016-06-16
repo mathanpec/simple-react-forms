@@ -1,12 +1,13 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 var path = require('path');
 
 var isDevelopment = process.env.NODE_ENV !== 'production';
 var BUILD_PATH = path.resolve(__dirname, 'lib');
 
 var common = {
-  entry: {},
+  entry: [],
   output: {},
   module: {
     loaders: [
@@ -26,7 +27,7 @@ var common = {
 var finalConf;
 if (isDevelopment) {
   finalConf = Object.assign({}, common);
-  finalConf.entry.app = ['webpack-hot-middleware/client', './demo/app.js']; // HMR
+  finalConf.entry = ['webpack-hot-middleware/client', './demo/app.js']; // HMR
   finalConf.output = {
     path: BUILD_PATH,
     filename: 'demo.js'
@@ -41,12 +42,11 @@ if (isDevelopment) {
 } else {
   // production config
   finalConf = Object.assign({}, common);
-  finalConf.entry.app = './src/index.js';
+  finalConf.entry = './src/index.js';
   finalConf.output = {
     path: BUILD_PATH,
     filename: 'index.js',
-    sourceMapFilename: 'index.map',
-    library: 'minimalisticReactForm',
+    library: 'SimpleReactForm',
     libraryTarget: 'umd'
   };
   finalConf.devtool = false;
@@ -66,6 +66,7 @@ if (isDevelopment) {
         warnings: false
       }
     }),
+    new CleanWebpackPlugin([BUILD_PATH]),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"'
     })
