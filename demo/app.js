@@ -2,6 +2,14 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Form, Field} from '../src';
 class FormDemo extends Component {
+  constructor () {
+    super();
+    let fields = [];
+    for (var i = 0; i < 200; i++) {
+      fields.push(i + ' - Field');
+    }
+    this.state = { fields };
+  }
   render () {
     return (
       <div>
@@ -23,6 +31,18 @@ class FormDemo extends Component {
             validators={['required']}
           />
        </Form>
+       {
+         this.state.fields.map((item) => {
+           return (
+             <Form onDemand key={item}>
+               <Field
+                 name={item}
+                 label={item}
+               />
+            </Form>
+           );
+         })
+       }
      </div>
     );
   }

@@ -8,6 +8,7 @@ class Form extends Component {
       rendered: !props.onDemand
     };
     this.scrollHandler = this.scrollHandler.bind(this);
+    this.renderAsync = this.renderAsync.bind(this);
   }
 
   componentWillUnmount () {
@@ -23,9 +24,22 @@ class Form extends Component {
 
   componentDidMount () {
     if (this.props.onDemand) {
+      window.requestIdleCallback && window.requestIdleCallback(this.renderAsync);
       window.addEventListener('scroll', this.scrollHandler);
       let el = ReactDOM.findDOMNode(this);
       this.el = el;
+    }
+  }
+
+  renderAsync (deadline) {
+    let rendered;
+    if (deadline.timeRemaining() > 0 && this.state.rendered === false) {
+      window.removeEventListener('scroll', this.scrollHandler);
+      this.setState({rendered: true});
+      rendered = true; // Can't depend on react state since its async
+    }
+    if (!rendered && !this.state.rendered) {
+      window.requestIdleCallback(this.renderAsync);
     }
   }
 

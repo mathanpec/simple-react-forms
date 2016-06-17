@@ -23,7 +23,7 @@ class Field extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.forceValidate !== this.props.forceValidate) {
+    if (nextProps.validators !== this.props.validators || nextProps.validators.length !== this.props.validators.length) {
       this.setFieldState(this.state.value, true, nextProps.validators);
     }
     if (nextProps.value !== this.props.value) {
