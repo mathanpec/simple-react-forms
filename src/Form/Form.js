@@ -34,11 +34,13 @@ class Form extends Component {
   renderAsync (deadline) {
     let rendered;
     if (deadline.timeRemaining() > 0 && this.state.rendered === false) {
+      console.log('rendering in async');
       window.removeEventListener('scroll', this.scrollHandler);
       this.setState({rendered: true});
       rendered = true; // Can't depend on react state since its async
     }
     if (!rendered && !this.state.rendered) {
+      console.log('second async setting');
       window.requestIdleCallback(this.renderAsync);
     }
   }
@@ -54,6 +56,7 @@ class Form extends Component {
     );
 
     if (status) {
+      console.log('rendering in scrollHandling');
       window.removeEventListener('scroll', this.scrollHandler);
       this.setState({rendered: true});
     }
