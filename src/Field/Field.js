@@ -80,7 +80,7 @@ class Field extends Component {
   defaultValueAccessors (event) {
     switch (this.props.type) {
       case 'checkbox':
-        return event.targe.checked;
+        return event.target.checked;
       default:
         return event.target ? event.target.value : event;
     }
