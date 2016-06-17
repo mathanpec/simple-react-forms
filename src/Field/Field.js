@@ -77,12 +77,17 @@ class Field extends Component {
     this.setState({value, valid, error, touched});
   }
 
-  onChangeHandler (event) {
-    if (event.target && event.target.type === 'checkbox') {
-      this.setFieldState(event.target ? event.target.checked : event, true);
-    } else {
-      this.setFieldState(event.target ? event.target.value : event, true);
+  defaultValueAccessors (event) {
+    switch (this.props.type) {
+      case 'checkbox':
+        return event.targe.checked;
+      default:
+        return event.target ? event.target.value : event;
     }
+  }
+
+  onChangeHandler (event) {
+    this.setFieldState(this.props.valueAccessor ? this.props.valueAccessor(event) : this.defaultValueAccessors(event), true);
     this.props.onChange && this.props.onChange(event);
   }
 
@@ -270,6 +275,7 @@ Field.propTypes = {
   placeholder: PropTypes.string,
   inline: PropTypes.bool,
   forceValidate: PropTypes.bool,
+  valueAccessor: PropTypes.func,
   optimize: PropTypes.bool
 };
 export default Field;
