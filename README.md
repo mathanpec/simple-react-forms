@@ -103,6 +103,13 @@ import React, {Component} from 'react';
 
 class SimpleFormDemo extends Component {
   render () {
+    let options = [{
+      id: 'blr',
+      label: 'Bangalore'
+    }, {
+      id: 'chn',
+      label: 'Chennai'
+    }];
     return (
     <div>
       <Form ref='simpleForm'>
@@ -111,7 +118,8 @@ class SimpleFormDemo extends Component {
             label='Select City'
             element= {
               <Select
-                options={this.props.options}
+                options={options}
+                valueAccessor={(selectedValue) => selectedValue.id}
               />
             }
           />
@@ -153,6 +161,7 @@ value| string, bool, number| false| | Value of the field. Usually used for initi
 type| string| false| text| Type of the field. Currently text, textarea, select, radio and checkbox is supported. Custom input types like `react-select` is also supported. But that is through `element` prop
 options| Array | false | | Options for Select and radio controls. It can either be like `[{text: 'Bangalore', value: 'bang'}]` or `['Bangalore', 'Chennai']`.
 element| React Component or html elements|false|| This is for using custom input controls like `react-select`. Check the usage in **Using custom elements** section.
+valueAccessor| function | false | | Field Component gets the value of the input field by listening on onChange event. In case of custom elements, onChange may recieve different arguments other than event object or the actual value. So In that case valueAccessor method is used to get the actual value that needs to be bind to the field. Check the usage in **Using custom elements** section.
 validators| Array | false | | Used for validation.  Check the usage in **Using Validation** section.
 help | String | false | | Used to show help text for fields on field focus
 inline | Boolean | false | false | Setting it true will render an inline form with label, controls and help text in same line
