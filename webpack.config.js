@@ -49,7 +49,7 @@ if (isDevelopment) {
     library: 'SimpleReactForm',
     libraryTarget: 'umd'
   };
-  finalConf.devtool = 'source-map';
+  finalConf.devtool = false;
   finalConf.externals = {
     'react': {
       root: 'React',
