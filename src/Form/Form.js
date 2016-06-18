@@ -79,6 +79,7 @@ class Form extends Component {
     );
   }
 }
+
 Form.defaultProps = {
   onDemand: false
 };

@@ -55,26 +55,29 @@ class Field extends Component {
   }
 
   checkForValidation (value, validators = this.props.validators) {
-    return validators.reduce((currentState, validator) => {
-      if (currentState.valid) {
-        if (typeof validator === 'function') return validator(value);
-        if (typeof validator === 'string') {
-          if (typeof availableValidators[validator] === 'function') {
-            return availableValidators[validator](value);
+    return validators.reduce(async function (currentState, validator) {
+      return await currentState.then(state => {
+        if (state.valid) {
+          if (typeof validator === 'function') return validator(value);
+          if (typeof validator === 'string') {
+            if (typeof availableValidators[validator] === 'function') {
+              return availableValidators[validator](value);
+            }
+          } else {
+            throw new Error('No validator to check: ' + validator);
           }
-        } else {
-          throw new Error('No validator to check: ' + validator);
         }
-      } else {
-        return currentState;
-      }
-    }, {valid: true});
+        return state;
+      });
+    }, Promise.resolve({valid: true}));
   }
 
   setFieldState (value, touched = false, validators) {
-    let validationState = this.checkForValidation(value, validators);
-    let {valid, error} = validationState;
-    this.setState({value, valid, error, touched});
+    return this.checkForValidation(value, validators)
+      .then(validationState => {
+        let {valid, error} = validationState;
+        this.setState({value, valid, error, touched});
+      });
   }
 
   defaultValueAccessors (event) {
@@ -87,8 +90,13 @@ class Field extends Component {
   }
 
   onChangeHandler (event) {
-    this.setFieldState(this.props.valueAccessor ? this.props.valueAccessor(event) : this.defaultValueAccessors(event), true);
-    this.props.onChange && this.props.onChange(event);
+    event.persist();
+    this.setFieldState(
+      this.props.valueAccessor ? this.props.valueAccessor(event) : this.defaultValueAccessors(event),
+      true
+    ).then(_ => {
+      this.props.onChange && this.props.onChange(event);
+    });
   }
 
   mouseOverHandler (event) {
