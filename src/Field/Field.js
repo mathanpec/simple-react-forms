@@ -10,7 +10,11 @@ class Field extends Component {
       valid: true,
       error: '',
       touched: false,
-      rendered: !props.optimize
+      rendered: !props.optimize,
+      // if async validators take a long time
+      // to finish, the isValid() method can wrongly
+      // read the state before validators actually finish
+      hasValidationFinished: true
     };
     this.onChangeHandler = this.onChangeHandler.bind(this);
     this.mouseOverHandler = this.mouseOverHandler.bind(this);
@@ -73,10 +77,12 @@ class Field extends Component {
   }
 
   setFieldState (value, touched = false, validators) {
+    // mark when validators start
+    this.setState({hasValidationFinished: false});
     return this.checkForValidation(value, validators)
       .then(validationState => {
         let {valid, error} = validationState;
-        this.setState({value, valid, error, touched});
+        this.setState({value, valid, error, touched, hasValidationFinished: true});
       });
   }
 
@@ -109,7 +115,7 @@ class Field extends Component {
 
   isValid () {
     this.setState({touched: true});
-    return this.state.valid;
+    return this.state.hasValidationFinished && this.state.valid;
   }
 
   addPropsToElement (element) {
