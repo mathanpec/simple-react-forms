@@ -124,6 +124,7 @@ class Field extends Component {
           onBlur={this.onBlur}
           onChange={this.onChangeHandler}
           ref={this.props.name}
+          name={this.props.name}
           value={this.state.value}
           placeholder={this.props.placeholder}
           className={styles['form-control']}
@@ -135,6 +136,7 @@ class Field extends Component {
           onBlur={this.onBlur}
           onChange={this.onChangeHandler}
           ref={this.props.name}
+          name={this.props.name}
           value={this.state.value}
           placeholder={this.props.placeholder}
           className={styles['form-control']}
