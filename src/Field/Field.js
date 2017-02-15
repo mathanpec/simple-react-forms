@@ -132,6 +132,9 @@ class Field extends Component {
       ),
       textarea: (
         <textarea
+          rows={this.props.row}
+          cols={this.props.cols}
+          maxlength={this.props.maxlength}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
           onChange={this.onChangeHandler}
