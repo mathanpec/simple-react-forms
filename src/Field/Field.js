@@ -132,7 +132,7 @@ class Field extends Component {
       ),
       textarea: (
         <textarea
-          rows={this.props.row}
+          rows={this.props.rows}
           cols={this.props.cols}
           maxlength={this.props.maxlength}
           onFocus={this.onFocus}
