@@ -128,6 +128,7 @@ class Field extends Component {
           value={this.state.value}
           placeholder={this.props.placeholder}
           className={styles['form-control']}
+          disabled={this.props.disabled}
         />
       ),
       textarea: (
@@ -140,6 +141,7 @@ class Field extends Component {
           value={this.state.value}
           placeholder={this.props.placeholder}
           className={styles['form-control']}
+          disabled={this.props.disabled}
         ></textarea>
       ),
       select: (
@@ -152,6 +154,7 @@ class Field extends Component {
           selected={this.state.value}
           placeholder={this.props.placeholder}
           className={styles['form-control']}
+          disabled={this.props.disabled}
         >
             <option value=''>Select</option>
           { this.props.options &&
@@ -173,6 +176,7 @@ class Field extends Component {
                 name={this.props.name}
                 checked={this.state.value === o.value}
                 selected={this.state.value === o.value}
+                disabled={this.props.disabled}
               /> {o.text}
             </span>
           );
@@ -188,6 +192,7 @@ class Field extends Component {
             ref={this.props.name}
             name={this.props.name}
             checked={this.state.value}
+            disabled={this.props.disabled}
           />
         </span>
       )
@@ -203,6 +208,7 @@ class Field extends Component {
         className={styles['form-control']}
         onMouseOver={this.mouseOverHandler}
         onFocus={this.mouseOverHandler}
+        disabled={this.props.disabled}
       />;
     }
     return this.props.element ? this.addPropsToElement(this.props.element) : this.getElementByType(this.props.type);
@@ -249,7 +255,8 @@ Field.defaultProps = {
   helpStyle: {},
   controlStyle: {},
   placeholder: '',
-  optimize: false
+  optimize: false,
+  disabled: false,
 };
 
 Field.propTypes = {
@@ -268,6 +275,7 @@ Field.propTypes = {
     value: PropTypes.string
   })), PropTypes.arrayOf(PropTypes.string)]),
   element: PropTypes.element,
+  disabled: PropTypes.bool,
   validators: PropTypes.array,
   onChange: PropTypes.func,
   style: PropTypes.object,

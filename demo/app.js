@@ -21,6 +21,7 @@ class FormDemo extends Component {
               width: '80%'
             }}
             validators={['required']}
+            disabled
           />
        </Form>
      </div>

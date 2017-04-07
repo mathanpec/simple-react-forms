@@ -31,6 +31,12 @@
     padding: 0px 15px;
     vertical-align: top;
     box-sizing:border-box;
+
+    input, select, textarea {
+      &[disabled] {
+        cursor: not-allowed;
+      }
+    }
   }
 
   .helpText {
