@@ -12,7 +12,7 @@ Simple form implementation using react which supports the following
 
 ```
   npm install --save simple-react-forms
-  
+
   // ES6
   import {Form, Field} from 'simple-react-forms';
 ```
@@ -44,14 +44,14 @@ class SimpleFormDemo extends Component {
       </Form>
       <button onClick={this.onClickHandler.bind(this)}>Submit</button>
     </div>
-      
+
     );
   }
 }
 ```
 
 **Note**: `ref` for `Form` element is a mandatory prop. Since we have to get the entered form values through `getFormValues` method exposed on `Form` instance.
-Check the `onClickHandler` in the example above for the sample usage of `getFormValues` method. For example, In the above example calling `getFormValues` after entering `Bangalore` 
+Check the `onClickHandler` in the example above for the sample usage of `getFormValues` method. For example, In the above example calling `getFormValues` after entering `Bangalore`
 in the input field will return the following object.
 
 ```
@@ -95,7 +95,7 @@ Finally to check the form validity, call the method `isValid()` exposed on Form 
 
 ### Using custom elements
 
-There might be cases when you want to use some custom input controls like `react-select` as an input field. In those cases, that field needs to passed as `element` props. All the props necessary for that custom component can be passed directly to it. Make sure the controls you use supports onChange, onBlur and other basic props. 
+There might be cases when you want to use some custom input controls like `react-select` as an input field. In those cases, that field needs to passed as `element` props. All the props necessary for that custom component can be passed directly to it. Make sure the controls you use supports onChange, onBlur and other basic props.
 
 ```
 import {Form, Field} from 'simple-react-forms';
@@ -125,7 +125,7 @@ class SimpleFormDemo extends Component {
           />
       </Form>
     </div>
-      
+
     );
   }
 }
@@ -134,7 +134,7 @@ class SimpleFormDemo extends Component {
 
 `simple-react-forms` can be made performant in two ways as follows.
 * By setting `onDemand` props as true for Form component. This will make the form component to just reserve the space for it if it is not in view port area and renders the actual form only when it comes in view area. Sample use case could be  rendering a editable table with large number of rows and each row is a form component with multiple fields.
-* By setting `optimize` props as true on Field Component. On setting this props, Field Component will just render a simple text box and the actual field element will be rendered only on mouse over of the input. Sample use case is in case of large number of select boxes with large number of options for each of them. So rendering a simple text box first and changing them to select on mouse over gives huge performance boost. 
+* By setting `optimize` props as true on Field Component. On setting this props, Field Component will just render a simple text box and the actual field element will be rendered only on mouse over of the input. Sample use case is in case of large number of select boxes with large number of options for each of them. So rendering a simple text box first and changing them to select on mouse over gives huge performance boost.
 
 
 ###Methods on Form Component
@@ -166,16 +166,10 @@ validators| Array | false | | Used for validation.  Check the usage in **Using V
 help | String | false | | Used to show help text for fields on field focus
 inline | Boolean | false | false | Setting it true will render an inline form with label, controls and help text in same line
 onChange | function | false | | If you want to listen on change of field value
-placeholder| strring | false | | Just like anyother placeholder :P
+placeholder| String | false | | Just like any other placeholder :P
+disabled | Boolean | false | false | Used to disable the field
 style | Object | false | | Overrides the default root style of field. Sample use case id to give width in case if you want to have multiple fields in same line.
 labelStyle | Object | false | | Overrides the default label style. Setting width color and other typical style values :)
 controlStyle | Object | false | | Overrides the default input element style.
 helpStyle | Object | false | | Overrides the default help text style.
 optimize | Boolean | false | false | If set to true, renders a plain input of type text by default and renders the actual field element on hover.
-
-
-
-
-
-
-
