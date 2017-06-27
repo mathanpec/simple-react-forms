@@ -19,14 +19,14 @@ class Field extends Component {
   }
 
   componentDidMount () {
-    this.setFieldState(this.props.value || '');
+    this.setFieldState(this.props.defaultValue || this.props.value || '');
   }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.forceValidate !== this.props.forceValidate) {
       this.setFieldState(this.state.value, true, nextProps.validators);
     }
-    if (nextProps.value !== this.props.value) {
+    if (nextProps.value && (nextProps.value !== this.props.value)) {
       this.setFieldState(nextProps.value, true, nextProps.validators);
     }
   }
@@ -263,6 +263,11 @@ Field.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+    PropTypes.number
+  ]),
+  defaultValue: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,
     PropTypes.number

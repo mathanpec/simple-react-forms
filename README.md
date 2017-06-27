@@ -147,6 +147,7 @@ getFormValues| An object with field names and values as keys and values respecti
 isValid| true or false
 
 ###Props on Form Component
+
 Name | type | Required | Default Value | Description
 ---- | ---- | -------- | ------------- | -----------
 onDemand | Boolean | false | false | If set to true, it just reserves space for the form element and renderes the actual form only when it comes to view area.
@@ -157,7 +158,8 @@ Name | type | Required | Default Value | Description
 ---- | ---- | -------- | ------------- | -----------
 name | string | true | | This is the unique identifier for the field inside form.
 label| string| false| | Label to used for that field
-value| string, bool, number| false| | Value of the field. Usually used for initial value setting for the field.
+value| string, bool, number| false| | Value of the field
+defaultValue| string, bool, number| false| | initial value setting for the field
 type| string| false| text| Type of the field. Currently text, textarea, select, radio and checkbox is supported. Custom input types like `react-select` is also supported. But that is through `element` prop
 options| Array | false | | Options for Select and radio controls. It can either be like `[{text: 'Bangalore', value: 'bang'}]` or `['Bangalore', 'Chennai']`.
 element| React Component or html elements|false|| This is for using custom input controls like `react-select`. Check the usage in **Using custom elements** section.
