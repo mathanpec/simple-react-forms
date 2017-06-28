@@ -50,8 +50,9 @@ class Field extends Component {
     el.parentNode.classList.remove(styles.focused);
     this.props.highlight && el.parentNode.classList.remove(styles.highlight);
 
-    this.setState({touched: true});
-    this.props.onBlur && this.props.onBlur(e);
+    this.setState({touched: true}, () => {
+      this.props.onBlur && this.props.onBlur(e);
+    });
   }
 
   checkForValidation (value, validators = this.props.validators) {
@@ -71,10 +72,10 @@ class Field extends Component {
     }, {valid: true});
   }
 
-  setFieldState (value, touched = false, validators) {
+  setFieldState (value, touched = false, validators, callback) {
     let validationState = this.checkForValidation(value, validators);
     let {valid, error} = validationState;
-    this.setState({value, valid, error, touched});
+    this.setState({value, valid, error, touched}, callback);
   }
 
   defaultValueAccessors (event) {
@@ -87,8 +88,12 @@ class Field extends Component {
   }
 
   onChangeHandler (event) {
-    this.setFieldState(this.props.valueAccessor ? this.props.valueAccessor(event) : this.defaultValueAccessors(event), true);
-    this.props.onChange && this.props.onChange(event);
+    this.setFieldState(
+      this.props.valueAccessor ? this.props.valueAccessor(event) : this.defaultValueAccessors(event),
+      true,
+      [],
+      () => this.props.onChange && this.props.onChange(event)
+    );
   }
 
   mouseOverHandler (event) {
