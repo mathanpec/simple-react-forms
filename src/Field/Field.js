@@ -26,7 +26,7 @@ class Field extends Component {
     if (nextProps.forceValidate !== this.props.forceValidate) {
       this.setFieldState(this.state.value, true, nextProps.validators);
     }
-    if (nextProps.value && (nextProps.value !== this.props.value)) {
+    if (nextProps.value !== this.props.value) {
       this.setFieldState(nextProps.value, true, nextProps.validators);
     }
   }
