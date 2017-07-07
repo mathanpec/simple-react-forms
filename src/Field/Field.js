@@ -91,7 +91,7 @@ class Field extends Component {
     this.setFieldState(
       this.props.valueAccessor ? this.props.valueAccessor(event) : this.defaultValueAccessors(event),
       true,
-      [],
+      this.props.validators,
       () => this.props.onChange && this.props.onChange(event)
     );
   }
