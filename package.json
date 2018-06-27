@@ -48,7 +48,6 @@
     "mocha": "^2.2.5",
     "postcss-loader": "^0.9.1",
     "precss": "^1.4.0",
-    "react-addons-test-utils": "^15.1.0",
     "redux-logger": "^2.0.1",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.14",
