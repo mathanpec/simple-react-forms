@@ -25,11 +25,13 @@
     "url": "https://github.com/mathanpec/simple-react-forms/issues"
   },
   "homepage": "https://github.com/mathanpec/simple-react-forms#readme",
-  "dependencies": {
-    "react": "^15.1.0",
-    "react-dom": "^15.1.0"
+  "peerdependencies": {
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0"
   },
   "devDependencies": {
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
     "ansi-regex": "^2.0.0",
     "autoprefixer": "^6.3.6",
     "babel-core": "^6.6.5",
@@ -46,8 +48,6 @@
     "mocha": "^2.2.5",
     "postcss-loader": "^0.9.1",
     "precss": "^1.4.0",
-    "react-addons-test-utils": "^15.1.0",
-    "react-dom": "^15.1.0",
     "redux-logger": "^2.0.1",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.14",
